@@ -357,17 +357,71 @@ const About = () => {
   );
 };
 
-// Contact Form with form validation
+// Contact Form with creative elements and animations
 const Contact = () => {
   const [formData, setFormData] = React.useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
+    service: 'portrait'
   });
   const [errors, setErrors] = React.useState({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState('form');
+  const formRef = React.useRef(null);
+  
+  // Floating label effect
+  React.useEffect(() => {
+    const inputs = document.querySelectorAll('.floating-input');
+    inputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        input.parentElement.classList.add('focused');
+      });
+      input.addEventListener('blur', () => {
+        if (input.value === '') {
+          input.parentElement.classList.remove('focused');
+        }
+      });
+      // Check initial state
+      if (input.value !== '') {
+        input.parentElement.classList.add('focused');
+      }
+    });
+  }, [activeTab]);
+  
+  // Animated background
+  React.useEffect(() => {
+    if (formRef.current) {
+      const particles = [];
+      const colors = ['#6c63ff', '#5a52d5', '#837dff', '#4a45b5'];
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.width = `${Math.random() * 10 + 5}px`;
+        particle.style.height = particle.style.width;
+        particle.style.opacity = Math.random() * 0.5 + 0.1;
+        particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        formRef.current.appendChild(particle);
+        particles.push(particle);
+      }
+      
+      return () => {
+        particles.forEach(particle => {
+          if (formRef.current && formRef.current.contains(particle)) {
+            formRef.current.removeChild(particle);
+          }
+        });
+      };
+    }
+  }, []);
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -398,17 +452,42 @@ const Contact = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       
-      // Simulate API call
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setSubmitSuccess(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setSubmitSuccess(false);
-        }, 5000);
-      }, 1500);
+      // Animate form submission
+      gsap.to(formRef.current, {
+        y: -20,
+        opacity: 0,
+        duration: 0.5,
+        onComplete: () => {
+          // Simulate API call
+          setTimeout(() => {
+            setIsSubmitting(false);
+            setSubmitSuccess(true);
+            setFormData({ name: '', email: '', subject: '', message: '', service: 'portrait' });
+            
+            // Animate success message
+            gsap.fromTo('.success-message', 
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.5 }
+            );
+            
+            // Reset success message after 5 seconds
+            setTimeout(() => {
+              gsap.to('.success-message', {
+                y: -20,
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => setSubmitSuccess(false)
+              });
+            }, 5000);
+          }, 1500);
+        }
+      });
+    } else {
+      // Shake form on error
+      gsap.to(formRef.current, {
+        x: [-10, 10, -10, 10, 0],
+        duration: 0.5
+      });
     }
   };
   
@@ -419,74 +498,268 @@ const Contact = () => {
           <h2>Get In Touch</h2>
           <p>Have a project in mind or want to learn more about our services? Send us a message!</p>
         </div>
-        <div className="contact-form" data-aos="fade-up" data-aos-delay="200">
-          {submitSuccess ? (
-            <div className="success-message">
-              <i className="fas fa-check-circle"></i>
-              <h3>Thank you!</h3>
-              <p>Your message has been sent successfully.</p>
+        
+        <div className="contact-tabs" data-aos="fade-up">
+          <button 
+            className={`tab-btn ${activeTab === 'form' ? 'active' : ''}`}
+            onClick={() => setActiveTab('form')}
+          >
+            <i className="fas fa-envelope"></i> Contact Form
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'info' ? 'active' : ''}`}
+            onClick={() => setActiveTab('info')}
+          >
+            <i className="fas fa-info-circle"></i> Contact Info
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'faq' ? 'active' : ''}`}
+            onClick={() => setActiveTab('faq')}
+          >
+            <i className="fas fa-question-circle"></i> FAQ
+          </button>
+        </div>
+        
+        <div className="tab-content" data-aos="fade-up" data-aos-delay="200">
+          {activeTab === 'form' && (
+            <div className="contact-form-container" ref={formRef}>
+              {submitSuccess ? (
+                <div className="success-message">
+                  <div className="success-animation">
+                    <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                      <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                      <path className="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                  </div>
+                  <h3>Thank you!</h3>
+                  <p>Your message has been sent successfully.</p>
+                  <p className="success-details">We'll get back to you within 24 hours.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="contact-form">
+                  <div className="form-header">
+                    <div className="form-icon">
+                      <i className="fas fa-paper-plane"></i>
+                    </div>
+                    <h3>Send us a message</h3>
+                  </div>
+                  
+                  <div className="form-row">
+                    <div className="floating-label-group">
+                      <input 
+                        type="text" 
+                        id="name" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className={`floating-input ${errors.name ? 'error' : ''}`}
+                      />
+                      <label className="floating-label">Your Name</label>
+                      {errors.name && <span className="error-message"><i className="fas fa-exclamation-circle"></i> {errors.name}</span>}
+                    </div>
+                    
+                    <div className="floating-label-group">
+                      <input 
+                        type="email" 
+                        id="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`floating-input ${errors.email ? 'error' : ''}`}
+                      />
+                      <label className="floating-label">Your Email</label>
+                      {errors.email && <span className="error-message"><i className="fas fa-exclamation-circle"></i> {errors.email}</span>}
+                    </div>
+                  </div>
+                  
+                  <div className="floating-label-group">
+                    <input 
+                      type="text" 
+                      id="subject" 
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={`floating-input ${errors.subject ? 'error' : ''}`}
+                    />
+                    <label className="floating-label">Subject</label>
+                    {errors.subject && <span className="error-message"><i className="fas fa-exclamation-circle"></i> {errors.subject}</span>}
+                  </div>
+                  
+                  <div className="form-group service-selector">
+                    <label>Service Type</label>
+                    <div className="service-options">
+                      <label className={`service-option ${formData.service === 'portrait' ? 'active' : ''}`}>
+                        <input 
+                          type="radio" 
+                          name="service" 
+                          value="portrait" 
+                          checked={formData.service === 'portrait'}
+                          onChange={handleChange}
+                        />
+                        <i className="fas fa-user"></i>
+                        <span>Portrait</span>
+                      </label>
+                      <label className={`service-option ${formData.service === 'wedding' ? 'active' : ''}`}>
+                        <input 
+                          type="radio" 
+                          name="service" 
+                          value="wedding" 
+                          checked={formData.service === 'wedding'}
+                          onChange={handleChange}
+                        />
+                        <i className="fas fa-heart"></i>
+                        <span>Wedding</span>
+                      </label>
+                      <label className={`service-option ${formData.service === 'event' ? 'active' : ''}`}>
+                        <input 
+                          type="radio" 
+                          name="service" 
+                          value="event" 
+                          checked={formData.service === 'event'}
+                          onChange={handleChange}
+                        />
+                        <i className="fas fa-calendar-alt"></i>
+                        <span>Event</span>
+                      </label>
+                      <label className={`service-option ${formData.service === 'commercial' ? 'active' : ''}`}>
+                        <input 
+                          type="radio" 
+                          name="service" 
+                          value="commercial" 
+                          checked={formData.service === 'commercial'}
+                          onChange={handleChange}
+                        />
+                        <i className="fas fa-building"></i>
+                        <span>Commercial</span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div className="floating-label-group">
+                    <textarea 
+                      id="message" 
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      className={`floating-input ${errors.message ? 'error' : ''}`}
+                    ></textarea>
+                    <label className="floating-label">Your Message</label>
+                    {errors.message && <span className="error-message"><i className="fas fa-exclamation-circle"></i> {errors.message}</span>}
+                  </div>
+                  
+                  <button 
+                    type="submit" 
+                    className="btn submit-btn" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span className="btn-content">
+                        <span className="spinner"></span>
+                        <span className="btn-text">Sending...</span>
+                      </span>
+                    ) : (
+                      <span className="btn-content">
+                        <i className="fas fa-paper-plane"></i>
+                        <span className="btn-text">Send Message</span>
+                      </span>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={errors.name ? 'error' : ''}
-                />
-                {errors.name && <span className="error-message">{errors.name}</span>}
+          )}
+          
+          {activeTab === 'info' && (
+            <div className="contact-info">
+              <div className="info-cards">
+                <div className="info-card" data-aos="zoom-in" data-aos-delay="100">
+                  <div className="info-icon">
+                    <i className="fas fa-map-marker-alt"></i>
+                  </div>
+                  <h3>Our Location</h3>
+                  <p>123 Photography Lane</p>
+                  <p>New York, NY 10001</p>
+                </div>
+                
+                <div className="info-card" data-aos="zoom-in" data-aos-delay="200">
+                  <div className="info-icon">
+                    <i className="fas fa-phone-alt"></i>
+                  </div>
+                  <h3>Call Us</h3>
+                  <p>+1 (555) 123-4567</p>
+                  <p>Mon-Fri: 9am - 6pm</p>
+                </div>
+                
+                <div className="info-card" data-aos="zoom-in" data-aos-delay="300">
+                  <div className="info-icon">
+                    <i className="fas fa-envelope"></i>
+                  </div>
+                  <h3>Email Us</h3>
+                  <p>info@prilenz.com</p>
+                  <p>support@prilenz.com</p>
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={errors.email ? 'error' : ''}
-                />
-                {errors.email && <span className="error-message">{errors.email}</span>}
+              
+              <div className="map-container" data-aos="fade-up">
+                <div className="map-placeholder">
+                  <i className="fas fa-map"></i>
+                  <p>Interactive Map</p>
+                  <span>(Map would be embedded here)</span>
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="subject">Subject</label>
-                <input 
-                  type="text" 
-                  id="subject" 
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={errors.subject ? 'error' : ''}
-                />
-                {errors.subject && <span className="error-message">{errors.subject}</span>}
+            </div>
+          )}
+          
+          {activeTab === 'faq' && (
+            <div className="faq-section">
+              <div className="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div className="faq-question" onClick={(e) => {
+                  e.currentTarget.parentElement.classList.toggle('active');
+                }}>
+                  <h3>What types of photography do you offer?</h3>
+                  <i className="fas fa-chevron-down"></i>
+                </div>
+                <div className="faq-answer">
+                  <p>We offer a wide range of photography services including portrait, wedding, event, commercial, and landscape photography. Each service is tailored to meet your specific needs and vision.</p>
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea 
-                  id="message" 
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className={errors.message ? 'error' : ''}
-                ></textarea>
-                {errors.message && <span className="error-message">{errors.message}</span>}
+              
+              <div className="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div className="faq-question" onClick={(e) => {
+                  e.currentTarget.parentElement.classList.toggle('active');
+                }}>
+                  <h3>How far in advance should I book?</h3>
+                  <i className="fas fa-chevron-down"></i>
+                </div>
+                <div className="faq-answer">
+                  <p>For weddings and major events, we recommend booking 6-12 months in advance. For portraits and smaller sessions, 2-4 weeks notice is usually sufficient, but availability may vary during peak seasons.</p>
+                </div>
               </div>
-              <button 
-                type="submit" 
-                className="btn" 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <span><i className="fas fa-spinner fa-spin"></i> Sending...</span>
-                ) : (
-                  'Send Message'
-                )}
-              </button>
-            </form>
+              
+              <div className="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <div className="faq-question" onClick={(e) => {
+                  e.currentTarget.parentElement.classList.toggle('active');
+                }}>
+                  <h3>Do you provide digital files or printed photos?</h3>
+                  <i className="fas fa-chevron-down"></i>
+                </div>
+                <div className="faq-answer">
+                  <p>We provide both! All packages include high-resolution digital files. We also offer professional printing services for those who want physical copies, albums, or wall art.</p>
+                </div>
+              </div>
+              
+              <div className="faq-item" data-aos="fade-up" data-aos-delay="400">
+                <div className="faq-question" onClick={(e) => {
+                  e.currentTarget.parentElement.classList.toggle('active');
+                }}>
+                  <h3>What is your cancellation policy?</h3>
+                  <i className="fas fa-chevron-down"></i>
+                </div>
+                <div className="faq-answer">
+                  <p>We understand that plans can change. Cancellations made 30+ days before the scheduled session receive a full refund minus the deposit. Cancellations within 30 days are subject to our detailed policy which will be provided in your contract.</p>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

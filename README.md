@@ -12,15 +12,7 @@ A beautiful photography portfolio website built with React and automatically dep
 
 ## Setup Instructions
 
-### 1. Create a GitHub Repository
-
-1. Go to [GitHub](https://github.com) and sign in to your account
-2. Click on the "+" icon in the top right corner and select "New repository"
-3. Name your repository (e.g., "prilenz-photography")
-4. Make sure it's set to "Public"
-5. Click "Create repository"
-
-### 2. Push Your Code to GitHub
+### 1. Push Your Code to GitHub
 
 ```bash
 # Initialize git repository
@@ -32,20 +24,20 @@ git add .
 # Commit the files
 git commit -m "Initial commit"
 
-# Add your GitHub repository as remote
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
+# Add the GitHub repository as remote
+git remote add origin https://github.com/Egregiuss/Prilenz_Project.git
 
 # Push to GitHub
 git push -u origin main
 ```
 
-### 3. Enable GitHub Pages
+### 2. Enable GitHub Pages
 
 1. Go to your repository on GitHub
 2. Click on "Settings"
-3. Scroll down to "GitHub Pages" section
+3. Scroll down to "Pages" section
 4. Under "Source", select "GitHub Actions"
-5. Your site will be published at `https://YOUR_USERNAME.github.io/YOUR_REPOSITORY_NAME/`
+5. Your site will be published at `https://egregiuss.github.io/Prilenz_Project/`
 
 ## Customizing Your Website
 

@@ -1,4 +1,11 @@
-// Main React application for Prilenz Photography
+// Initialize AOS animation library
+document.addEventListener('DOMContentLoaded', () => {
+  AOS.init({
+    duration: 800,
+    easing: 'ease-in-out',
+    once: true
+  });
+});
 
 // Sample image URLs (replace these with your own images later)
 const sampleImages = [
@@ -6,69 +13,181 @@ const sampleImages = [
     id: 1,
     url: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e',
     title: 'Mountain Lake',
-    description: 'Serene mountain lake at sunset'
+    description: 'Serene mountain lake at sunset',
+    category: 'landscape'
   },
   {
     id: 2,
     url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b',
     title: 'Forest Path',
-    description: 'Mystical path through an autumn forest'
+    description: 'Mystical path through an autumn forest',
+    category: 'landscape'
   },
   {
     id: 3,
     url: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05',
     title: 'Foggy Mountains',
-    description: 'Mountains shrouded in morning fog'
+    description: 'Mountains shrouded in morning fog',
+    category: 'landscape'
   },
   {
     id: 4,
     url: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d',
     title: 'Forest Lake',
-    description: 'Calm lake surrounded by pine trees'
+    description: 'Calm lake surrounded by pine trees',
+    category: 'nature'
   },
   {
     id: 5,
     url: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
     title: 'Sunset Valley',
-    description: 'Golden hour in the valley'
+    description: 'Golden hour in the valley',
+    category: 'nature'
   },
   {
     id: 6,
     url: 'https://images.unsplash.com/photo-1500534623283-312aade485b7',
     title: 'Coastal Cliffs',
-    description: 'Dramatic ocean cliffs at dusk'
+    description: 'Dramatic ocean cliffs at dusk',
+    category: 'seascape'
   },
 ];
 
-// Header Component
+// Custom React hooks
+const useIntersectionObserver = (ref, options) => {
+  const [isIntersecting, setIsIntersecting] = React.useState(false);
+  
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, options);
+    
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+  
+  return isIntersecting;
+};
+
+const useScrollPosition = () => {
+  const [scrollPosition, setScrollPosition] = React.useState(0);
+  
+  React.useEffect(() => {
+    const updatePosition = () => {
+      setScrollPosition(window.pageYOffset);
+    };
+    
+    window.addEventListener('scroll', updatePosition);
+    updatePosition();
+    
+    return () => window.removeEventListener('scroll', updatePosition);
+  }, []);
+  
+  return scrollPosition;
+};
+
+// Context for theme
+const ThemeContext = React.createContext();
+
+const ThemeProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = React.useState(false);
+  
+  React.useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [darkMode]);
+  
+  return (
+    <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+// Header Component with animation
 const Header = () => {
+  const scrollPosition = useScrollPosition();
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const { darkMode, setDarkMode } = React.useContext(ThemeContext);
+  
+  React.useEffect(() => {
+    const header = document.querySelector('header');
+    if (scrollPosition > 100) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  }, [scrollPosition]);
+
   return (
     <header>
       <div className="container">
         <nav>
           <a href="#" className="logo">Prilenz</a>
-          <ul className="nav-links">
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+          <div className="nav-right">
+            <button 
+              className="theme-toggle" 
+              onClick={() => setDarkMode(!darkMode)}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <i className="fas fa-sun"></i> : <i className="fas fa-moon"></i>}
+            </button>
+            <button 
+              className={`menu-toggle ${menuOpen ? 'active' : ''}`} 
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
+              <li><a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a></li>
+              <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
+              <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a></li>
+            </ul>
+          </div>
         </nav>
       </div>
     </header>
   );
 };
 
-// Hero Component
+// Hero Component with parallax effect
 const Hero = () => {
+  const heroRef = React.useRef(null);
+  
+  React.useEffect(() => {
+    const parallaxEffect = () => {
+      const scrollPosition = window.pageYOffset;
+      if (heroRef.current) {
+        heroRef.current.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+      }
+    };
+    
+    window.addEventListener('scroll', parallaxEffect);
+    return () => window.removeEventListener('scroll', parallaxEffect);
+  }, []);
+  
   const heroStyle = {
     backgroundImage: `url(${sampleImages[0].url}?auto=format&fit=crop&w=1920&q=80)`
   };
   
   return (
-    <section className="hero" style={heroStyle}>
+    <section className="hero" style={heroStyle} ref={heroRef}>
       <div className="hero-overlay"></div>
       <div className="container">
-        <div className="hero-content">
+        <div className="hero-content" data-aos="fade-up" data-aos-delay="200">
           <h1>Capturing Life's Beautiful Moments</h1>
           <p>Professional photography that tells your unique story through stunning visuals</p>
           <a href="#gallery" className="btn">View Gallery</a>
@@ -78,11 +197,56 @@ const Hero = () => {
   );
 };
 
-// Gallery Item Component
-const GalleryItem = ({ image }) => {
+// Gallery Filter Component
+const GalleryFilter = ({ categories, activeCategory, setActiveCategory }) => {
   return (
-    <div className="gallery-item">
-      <img src={`${image.url}?auto=format&fit=crop&w=600&q=80`} alt={image.title} />
+    <div className="gallery-filter" data-aos="fade-up">
+      <button 
+        className={activeCategory === 'all' ? 'active' : ''} 
+        onClick={() => setActiveCategory('all')}
+      >
+        All
+      </button>
+      {categories.map(category => (
+        <button 
+          key={category} 
+          className={activeCategory === category ? 'active' : ''} 
+          onClick={() => setActiveCategory(category)}
+        >
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+// Gallery Item Component with lazy loading
+const GalleryItem = ({ image, index }) => {
+  const itemRef = React.useRef(null);
+  const isVisible = useIntersectionObserver(itemRef, { threshold: 0.1 });
+  
+  React.useEffect(() => {
+    if (isVisible && itemRef.current) {
+      gsap.to(itemRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        delay: index * 0.1
+      });
+    }
+  }, [isVisible, index]);
+  
+  return (
+    <div 
+      className="gallery-item" 
+      ref={itemRef} 
+      style={{ opacity: 0, transform: 'translateY(20px)' }}
+    >
+      <img 
+        src={`${image.url}?auto=format&fit=crop&w=600&q=80`} 
+        alt={image.title} 
+        loading="lazy" 
+      />
       <div className="gallery-caption">
         <h3>{image.title}</h3>
         <p>{image.description}</p>
@@ -91,18 +255,54 @@ const GalleryItem = ({ image }) => {
   );
 };
 
-// Gallery Component
+// Gallery Component with filtering and masonry layout
 const Gallery = () => {
+  const [activeCategory, setActiveCategory] = React.useState('all');
+  const [filteredImages, setFilteredImages] = React.useState(sampleImages);
+  const galleryRef = React.useRef(null);
+  
+  // Extract unique categories
+  const categories = [...new Set(sampleImages.map(img => img.category))];
+  
+  React.useEffect(() => {
+    if (activeCategory === 'all') {
+      setFilteredImages(sampleImages);
+    } else {
+      setFilteredImages(sampleImages.filter(img => img.category === activeCategory));
+    }
+  }, [activeCategory]);
+  
+  React.useEffect(() => {
+    // Initialize Masonry layout after images are loaded
+    if (galleryRef.current) {
+      const grid = galleryRef.current;
+      imagesLoaded(grid, function() {
+        new Masonry(grid, {
+          itemSelector: '.gallery-item',
+          columnWidth: '.gallery-item',
+          percentPosition: true
+        });
+      });
+    }
+  }, [filteredImages]);
+  
   return (
     <section id="gallery" className="gallery">
       <div className="container">
-        <div className="section-title">
+        <div className="section-title" data-aos="fade-up">
           <h2>Photo Gallery</h2>
           <p>Explore our collection of breathtaking moments captured through the lens</p>
         </div>
-        <div className="gallery-grid">
-          {sampleImages.map(image => (
-            <GalleryItem key={image.id} image={image} />
+        
+        <GalleryFilter 
+          categories={categories} 
+          activeCategory={activeCategory} 
+          setActiveCategory={setActiveCategory} 
+        />
+        
+        <div className="gallery-grid" ref={galleryRef}>
+          {filteredImages.map((image, index) => (
+            <GalleryItem key={image.id} image={image} index={index} />
           ))}
         </div>
       </div>
@@ -110,16 +310,42 @@ const Gallery = () => {
   );
 };
 
-// About Component
+// About Component with scroll animations
 const About = () => {
+  const aboutRef = React.useRef(null);
+  
+  React.useEffect(() => {
+    if (aboutRef.current) {
+      ScrollTrigger.create({
+        trigger: aboutRef.current,
+        start: "top 80%",
+        onEnter: () => {
+          gsap.to(".about-image", {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out"
+          });
+          gsap.to(".about-text", {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            delay: 0.3,
+            ease: "power3.out"
+          });
+        }
+      });
+    }
+  }, []);
+  
   return (
-    <section id="about" className="about">
+    <section id="about" className="about" ref={aboutRef}>
       <div className="container">
         <div className="about-content">
-          <div className="about-image">
+          <div className="about-image" style={{ transform: 'translateX(-50px)', opacity: 0 }}>
             <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=600&q=80" alt="Photographer" />
           </div>
-          <div className="about-text">
+          <div className="about-text" style={{ transform: 'translateX(50px)', opacity: 0 }}>
             <h2>About Prilenz Photography</h2>
             <p>Welcome to Prilenz Photography, where we capture life's most precious moments through our lens. With years of experience and a passion for visual storytelling, we specialize in creating stunning imagery that stands the test of time.</p>
             <p>Our philosophy is simple: every photograph should tell a story and evoke emotion. Whether it's a breathtaking landscape, a candid portrait, or a special event, we approach each project with creativity, technical expertise, and attention to detail.</p>
@@ -131,40 +357,137 @@ const About = () => {
   );
 };
 
-// Contact Component
+// Contact Form with form validation
 const Contact = () => {
+  const [formData, setFormData] = React.useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [errors, setErrors] = React.useState({});
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitSuccess, setSubmitSuccess] = React.useState(false);
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+  
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
+    }
+    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Thank you for your message! This is a demo form.');
+    if (validateForm()) {
+      setIsSubmitting(true);
+      
+      // Simulate API call
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+      }, 1500);
+    }
   };
   
   return (
     <section id="contact" className="contact">
       <div className="container">
-        <div className="section-title">
+        <div className="section-title" data-aos="fade-up">
           <h2>Get In Touch</h2>
           <p>Have a project in mind or want to learn more about our services? Send us a message!</p>
         </div>
-        <div className="contact-form">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input type="text" id="name" required />
+        <div className="contact-form" data-aos="fade-up" data-aos-delay="200">
+          {submitSuccess ? (
+            <div className="success-message">
+              <i className="fas fa-check-circle"></i>
+              <h3>Thank you!</h3>
+              <p>Your message has been sent successfully.</p>
             </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input type="email" id="email" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="subject">Subject</label>
-              <input type="text" id="subject" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="message">Message</label>
-              <textarea id="message" required></textarea>
-            </div>
-            <button type="submit" className="btn">Send Message</button>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={errors.name ? 'error' : ''}
+                />
+                {errors.name && <span className="error-message">{errors.name}</span>}
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={errors.email ? 'error' : ''}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+              <div className="form-group">
+                <label htmlFor="subject">Subject</label>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className={errors.subject ? 'error' : ''}
+                />
+                {errors.subject && <span className="error-message">{errors.subject}</span>}
+              </div>
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea 
+                  id="message" 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={errors.message ? 'error' : ''}
+                ></textarea>
+                {errors.message && <span className="error-message">{errors.message}</span>}
+              </div>
+              <button 
+                type="submit" 
+                className="btn" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span><i className="fas fa-spinner fa-spin"></i> Sending...</span>
+                ) : (
+                  'Send Message'
+                )}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </section>
@@ -195,15 +518,33 @@ const Footer = () => {
 
 // Main App Component
 const App = () => {
+  React.useEffect(() => {
+    // Initialize GSAP animations
+    gsap.from('.logo', { 
+      opacity: 0, 
+      y: -20, 
+      duration: 1, 
+      ease: 'power3.out' 
+    });
+    
+    gsap.from('.nav-links li', { 
+      opacity: 0, 
+      y: -20, 
+      duration: 0.8, 
+      stagger: 0.2, 
+      ease: 'power3.out' 
+    });
+  }, []);
+
   return (
-    <React.Fragment>
+    <ThemeProvider>
       <Header />
       <Hero />
       <Gallery />
       <About />
       <Contact />
       <Footer />
-    </React.Fragment>
+    </ThemeProvider>
   );
 };
 

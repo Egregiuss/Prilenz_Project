@@ -4,6 +4,16 @@
   gap: 20px;
 }
 
+.gallery-item {
+  aspect-ratio: 1/1;
+  max-height: 300px;
+}
+
+.gallery-item img {
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 992px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);

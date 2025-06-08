@@ -8,28 +8,198 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Animation Library -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
-    <div id="root"></div>
-    
-    <!-- React and ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <!-- GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <!-- Masonry Layout -->
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-    <!-- imagesLoaded -->
-    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-    <!-- Main App -->
-    <script type="text/babel" src="app.js"></script>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Prilenz</a>
+                <div class="nav-right">
+                    <button class="menu-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-links">
+                        <li><a href="#gallery">Portfolio</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Prilenz Photography</h1>
+            <p>Capturing moments that last forever</p>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Portfolio</h2>
+            </div>
+            
+            <div class="gallery-filter">
+                <button class="active">All</button>
+                <button>Landscape</button>
+                <button>Nature</button>
+                <button>Portrait</button>
+                <button>Seascape</button>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80" alt="Mountain Lake">
+                    <div class="gallery-item-hover">
+                        <h3>Mountain Lake</h3>
+                        <p>landscape</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80" alt="Forest Path">
+                    <div class="gallery-item-hover">
+                        <h3>Forest Path</h3>
+                        <p>landscape</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80" alt="Foggy Mountains">
+                    <div class="gallery-item-hover">
+                        <h3>Foggy Mountains</h3>
+                        <p>landscape</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80" alt="Forest Lake">
+                    <div class="gallery-item-hover">
+                        <h3>Forest Lake</h3>
+                        <p>nature</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80" alt="Sunset Valley">
+                    <div class="gallery-item-hover">
+                        <h3>Sunset Valley</h3>
+                        <p>nature</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80" alt="Coastal Cliffs">
+                    <div class="gallery-item-hover">
+                        <h3>Coastal Cliffs</h3>
+                        <p>seascape</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=600&q=80" alt="Photographer">
+                </div>
+                <div class="about-text">
+                    <h2>About Me</h2>
+                    <p>I'm a professional photographer specializing in capturing life's most precious moments through my lens. With years of experience and a passion for visual storytelling, I create stunning imagery that stands the test of time.</p>
+                    <p>My philosophy is simple: every photograph should tell a story and evoke emotion. Whether it's a breathtaking landscape, a candid portrait, or a special event, I approach each project with creativity, technical expertise, and attention to detail.</p>
+                    <p>I believe that photography is not just about taking pictures—it's about creating art that resonates with the viewer and preserves memories for generations to come.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@prilenz.com</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>New York, NY</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="footer-text">© 2024 Prilenz Photography. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.gallery-filter button');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>

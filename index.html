@@ -32,7 +32,7 @@
     </header>
 
     <section class="hero">
-        <div class="hero-content">
+        <div class="hero-content reveal">
             <h1>Prilenz Photography</h1>
             <p>Capturing moments that last forever</p>
         </div>
@@ -40,72 +40,100 @@
 
     <section id="gallery" class="gallery">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title reveal">
                 <h2>Portfolio</h2>
             </div>
             
-            <div class="gallery-filter">
-                <button class="active">All</button>
-                <button>Landscape</button>
-                <button>Nature</button>
-                <button>Portrait</button>
-                <button>Seascape</button>
+            <div class="gallery-filter reveal">
+                <button class="active" data-category="all">All</button>
+                <button data-category="landscape">Landscape</button>
+                <button data-category="nature">Nature</button>
+                <button data-category="portrait">Portrait</button>
+                <button data-category="seascape">Seascape</button>
             </div>
             
             <div class="gallery-grid">
-                <div class="gallery-item">
+                <div class="gallery-item visible" data-category="landscape" data-description="Serene mountain lake at sunset">
                     <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80" alt="Mountain Lake">
                     <div class="gallery-item-hover">
                         <h3>Mountain Lake</h3>
                         <p>landscape</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item visible" data-category="landscape" data-description="Mystical path through an autumn forest">
                     <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80" alt="Forest Path">
                     <div class="gallery-item-hover">
                         <h3>Forest Path</h3>
                         <p>landscape</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item visible" data-category="landscape" data-description="Mountains shrouded in morning fog">
                     <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80" alt="Foggy Mountains">
                     <div class="gallery-item-hover">
                         <h3>Foggy Mountains</h3>
                         <p>landscape</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item visible" data-category="nature" data-description="Calm lake surrounded by pine trees">
                     <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80" alt="Forest Lake">
                     <div class="gallery-item-hover">
                         <h3>Forest Lake</h3>
                         <p>nature</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item visible" data-category="nature" data-description="Golden hour in the valley">
                     <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80" alt="Sunset Valley">
                     <div class="gallery-item-hover">
                         <h3>Sunset Valley</h3>
                         <p>nature</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item visible" data-category="seascape" data-description="Dramatic ocean cliffs at dusk">
                     <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80" alt="Coastal Cliffs">
                     <div class="gallery-item-hover">
                         <h3>Coastal Cliffs</h3>
                         <p>seascape</p>
                     </div>
                 </div>
+                <div class="gallery-item visible" data-category="portrait" data-description="Artistic portrait with natural lighting">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80" alt="Portrait Study">
+                    <div class="gallery-item-hover">
+                        <h3>Portrait Study</h3>
+                        <p>portrait</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="portrait" data-description="Portrait captured during golden hour">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" alt="Golden Hour Portrait">
+                    <div class="gallery-item-hover">
+                        <h3>Golden Hour Portrait</h3>
+                        <p>portrait</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Lightbox -->
+    <div class="lightbox">
+        <button class="lightbox-close"><i class="fas fa-times"></i></button>
+        <button class="lightbox-prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="lightbox-next"><i class="fas fa-chevron-right"></i></button>
+        <div class="lightbox-content">
+            <img class="lightbox-image" src="" alt="Enlarged photo">
+            <div class="lightbox-info">
+                <h2 class="lightbox-title"></h2>
+                <p class="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+
     <section id="about" class="about">
         <div class="container">
             <div class="about-content">
-                <div class="about-image">
+                <div class="about-image reveal">
                     <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=600&q=80" alt="Photographer">
                 </div>
-                <div class="about-text">
+                <div class="about-text reveal">
                     <h2>About Me</h2>
                     <p>I'm a professional photographer specializing in capturing life's most precious moments through my lens. With years of experience and a passion for visual storytelling, I create stunning imagery that stands the test of time.</p>
                     <p>My philosophy is simple: every photograph should tell a story and evoke emotion. Whether it's a breathtaking landscape, a candid portrait, or a special event, I approach each project with creativity, technical expertise, and attention to detail.</p>
@@ -117,12 +145,12 @@
 
     <section id="contact" class="contact">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title reveal">
                 <h2>Get In Touch</h2>
             </div>
             
             <div class="contact-content">
-                <div class="contact-info">
+                <div class="contact-info reveal">
                     <h3>Contact Information</h3>
                     <div class="info-item">
                         <i class="fas fa-envelope"></i>
@@ -149,7 +177,7 @@
                     </div>
                 </div>
                 
-                <div class="contact-form-container">
+                <div class="contact-form-container reveal">
                     <form class="contact-form">
                         <div class="form-group">
                             <input type="text" id="name" name="name" placeholder="Your Name">
@@ -173,33 +201,11 @@
         </div>
     </footer>
 
-    <script>
-        // Simple menu toggle
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        // Filter functionality
-        const filterButtons = document.querySelectorAll('.gallery-filter button');
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                // Add active class to clicked button
-                this.classList.add('active');
-            });
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
+    <!-- Masonry Layout -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <!-- imagesLoaded -->
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
 </body>
 </html>

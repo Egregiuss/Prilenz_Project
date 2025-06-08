@@ -272,6 +272,14 @@ nav {
   overflow: hidden;
   cursor: pointer;
   aspect-ratio: 1/1.2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.gallery-item.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .gallery-item img {
@@ -318,8 +326,8 @@ nav {
   letter-spacing: 1px;
 }
 
-/* Gallery Modal */
-.gallery-modal {
+/* Lightbox */
+.lightbox {
   position: fixed;
   top: 0;
   left: 0;
@@ -330,51 +338,88 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 1001;
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
 }
 
-.modal-content {
-  max-width: 1200px;
+.lightbox-content {
+  max-width: 90%;
   max-height: 90vh;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
-.modal-content img {
+.lightbox-image {
   max-width: 100%;
   max-height: 80vh;
   object-fit: contain;
 }
 
-.modal-info {
+.lightbox-info {
   color: white;
   padding: 20px 0;
   text-align: center;
 }
 
-.modal-info h2 {
+.lightbox-title {
   font-size: 24px;
   font-weight: 300;
   margin-bottom: 10px;
   letter-spacing: 1px;
 }
 
-.modal-info p {
+.lightbox-description {
   font-size: 16px;
   font-weight: 300;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  z-index: 1001;
+}
+
+.lightbox-close {
+  top: 20px;
+  right: 20px;
+}
+
+.lightbox-prev {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox-next {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  opacity: 0.7;
+}
+
+.lightbox-prev.disabled,
+.lightbox-next.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* About Section */
@@ -594,6 +639,18 @@ footer {
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 1px;
+}
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive Design */

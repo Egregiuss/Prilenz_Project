@@ -2,6 +2,34 @@
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Theme toggle functionality
+    const themeToggle = document.querySelector('.theme-toggle');
+    const themeIcon = themeToggle.querySelector('i');
+    let darkMode = localStorage.getItem('darkMode') === 'true';
+    
+    // Set initial theme based on localStorage
+    if (darkMode) {
+        document.body.classList.add('dark-mode');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+    
+    themeToggle.addEventListener('click', function() {
+        darkMode = !darkMode;
+        document.body.classList.toggle('dark-mode');
+        
+        if (darkMode) {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+        
+        // Save preference to localStorage
+        localStorage.setItem('darkMode', darkMode);
+    });
+
     // Menu toggle functionality
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -88,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentImageIndex = 0;
     const visibleItems = () => Array.from(galleryItems).filter(item => item.style.display !== 'none');
     
-    galleryItemImages.forEach((img, index) => {
+    galleryItemImages.forEach((img) => {
         img.addEventListener('click', function() {
             const item = this.closest('.gallery-item');
             const visibleItemsArray = visibleItems();

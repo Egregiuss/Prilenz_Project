@@ -16,6 +16,9 @@
             <nav>
                 <a href="#" class="logo">Prilenz</a>
                 <div class="nav-right">
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
                     <button class="menu-toggle" aria-label="Toggle menu">
                         <span></span>
                         <span></span>
@@ -46,56 +49,15 @@
             
             <div class="gallery-filter reveal">
                 <button class="active" data-category="all">All</button>
-                <button data-category="landscape">Landscape</button>
-                <button data-category="nature">Nature</button>
                 <button data-category="portrait">Portrait</button>
-                <button data-category="seascape">Seascape</button>
+                <button data-category="birthday">Birthday</button>
+                <button data-category="graduation">Graduation</button>
+                <button data-category="wedding">Wedding</button>
+                <button data-category="bridal">Bridal Shower</button>
             </div>
             
             <div class="gallery-grid">
-                <div class="gallery-item visible" data-category="landscape" data-description="Serene mountain lake at sunset">
-                    <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=800&q=80" alt="Mountain Lake">
-                    <div class="gallery-item-hover">
-                        <h3>Mountain Lake</h3>
-                        <p>landscape</p>
-                    </div>
-                </div>
-                <div class="gallery-item visible" data-category="landscape" data-description="Mystical path through an autumn forest">
-                    <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80" alt="Forest Path">
-                    <div class="gallery-item-hover">
-                        <h3>Forest Path</h3>
-                        <p>landscape</p>
-                    </div>
-                </div>
-                <div class="gallery-item visible" data-category="landscape" data-description="Mountains shrouded in morning fog">
-                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80" alt="Foggy Mountains">
-                    <div class="gallery-item-hover">
-                        <h3>Foggy Mountains</h3>
-                        <p>landscape</p>
-                    </div>
-                </div>
-                <div class="gallery-item visible" data-category="nature" data-description="Calm lake surrounded by pine trees">
-                    <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80" alt="Forest Lake">
-                    <div class="gallery-item-hover">
-                        <h3>Forest Lake</h3>
-                        <p>nature</p>
-                    </div>
-                </div>
-                <div class="gallery-item visible" data-category="nature" data-description="Golden hour in the valley">
-                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80" alt="Sunset Valley">
-                    <div class="gallery-item-hover">
-                        <h3>Sunset Valley</h3>
-                        <p>nature</p>
-                    </div>
-                </div>
-                <div class="gallery-item visible" data-category="seascape" data-description="Dramatic ocean cliffs at dusk">
-                    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80" alt="Coastal Cliffs">
-                    <div class="gallery-item-hover">
-                        <h3>Coastal Cliffs</h3>
-                        <p>seascape</p>
-                    </div>
-                </div>
-                <div class="gallery-item visible" data-category="portrait" data-description="Artistic portrait with natural lighting">
+                <div class="gallery-item visible" data-category="portrait" data-description="Professional portrait with natural lighting">
                     <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80" alt="Portrait Study">
                     <div class="gallery-item-hover">
                         <h3>Portrait Study</h3>
@@ -107,6 +69,55 @@
                     <div class="gallery-item-hover">
                         <h3>Golden Hour Portrait</h3>
                         <p>portrait</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="birthday" data-description="Joyful birthday celebration with friends and family">
+                    <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=800&q=80" alt="Birthday Celebration">
+                    <div class="gallery-item-hover">
+                        <h3>Birthday Celebration</h3>
+                        <p>birthday</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="birthday" data-description="Elegant birthday party with beautiful decorations">
+                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80" alt="Elegant Birthday">
+                    <div class="gallery-item-hover">
+                        <h3>Elegant Birthday</h3>
+                        <p>birthday</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="graduation" data-description="Proud graduate celebrating their achievement">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" alt="Graduation Day">
+                    <div class="gallery-item-hover">
+                        <h3>Graduation Day</h3>
+                        <p>graduation</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="graduation" data-description="Group of graduates throwing caps in celebration">
+                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80" alt="Graduation Celebration">
+                    <div class="gallery-item-hover">
+                        <h3>Graduation Celebration</h3>
+                        <p>graduation</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="wedding" data-description="Beautiful couple on their special day">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Wedding Day">
+                    <div class="gallery-item-hover">
+                        <h3>Wedding Day</h3>
+                        <p>wedding</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="wedding" data-description="Romantic wedding ceremony at sunset">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Sunset Wedding">
+                    <div class="gallery-item-hover">
+                        <h3>Sunset Wedding</h3>
+                        <p>wedding</p>
+                    </div>
+                </div>
+                <div class="gallery-item visible" data-category="bridal" data-description="Elegant bridal shower with friends">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80" alt="Bridal Shower">
+                    <div class="gallery-item-hover">
+                        <h3>Bridal Shower</h3>
+                        <p>bridal</p>
                     </div>
                 </div>
             </div>
